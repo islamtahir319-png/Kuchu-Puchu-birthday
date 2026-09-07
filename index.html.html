@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Something For You 💙</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{
+  font-family: Georgia, "Times New Roman", serif;
+  color:#eef8ff;
+  background:#020b18;
+}
+.scene{
+  position:relative;width:100%;height:100vh;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(19,76,112,.35), transparent 38%),
+    linear-gradient(180deg,#020817 0%,#03152a 48%,#02101e 100%);
+}
+.stars,.stars:before,.stars:after{
+  position:absolute;inset:0;content:"";pointer-events:none;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.8) 0 1px,transparent 1.5px),
+    radial-gradient(circle,rgba(174,226,255,.65) 0 1px,transparent 1.5px);
+  background-size:130px 130px,210px 210px;
+  animation:drift 24s linear infinite;
+}
+.stars:before{transform:translate(40px,70px);opacity:.45;animation-duration:34s}
+.stars:after{transform:translate(-70px,-40px);opacity:.3;animation-duration:44s}
+@keyframes drift{to{transform:translateY(40px)}}
+
+.moon{
+ position:absolute;top:9%;right:11%;width:90px;height:90px;border-radius:50%;
+ background:rgba(221,244,255,.92);box-shadow:0 0 45px rgba(154,219,255,.4);
+}
+.glow{
+ position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);
+ width:420px;height:420px;border-radius:50%;
+ background:rgba(18,107,148,.12);filter:blur(20px);
+}
+.content{
+ position:relative;z-index:5;width:min(900px,90%);height:100%;
+ margin:auto;display:flex;align-items:center;justify-content:center;text-align:center;
+}
+.card{
+ width:100%;max-height:88vh;overflow:auto;padding:50px 34px 55px;
+ border:1px solid rgba(177,225,245,.22);border-radius:28px;
+ background:rgba(2,17,33,.58);backdrop-filter:blur(12px);
+ box-shadow:0 20px 80px rgba(0,0,0,.35);
+ opacity:0;transform:translateY(20px);transition:1s ease;
+}
+.card.show{opacity:1;transform:none}
+.small{letter-spacing:4px;text-transform:uppercase;font:12px Arial,sans-serif;color:#9fd6ed}
+h1{font-size:clamp(42px,8vw,82px);font-weight:400;margin:18px 0 12px;
+ text-shadow:0 0 28px rgba(116,205,255,.3)}
+h2{font-size:clamp(28px,5vw,48px);font-weight:400;margin-bottom:22px}
+p{font-size:clamp(17px,2.3vw,22px);line-height:1.75;color:#dcecf5}
+.message{font-size:clamp(18px,2.5vw,24px);line-height:1.8}
+.highlight{font-size:clamp(28px,5vw,52px);font-style:italic;margin:28px 0}
+button{
+ margin-top:30px;padding:14px 28px;border-radius:999px;
+ border:1px solid rgba(180,225,245,.45);background:rgba(12,75,105,.35);
+ color:#eefaff;cursor:pointer;font:15px Arial,sans-serif;letter-spacing:1px;
+ transition:.3s;
+}
+button:hover{transform:translateY(-2px);background:rgba(20,101,135,.5)}
+.screen{display:none;animation:fade 1s ease}.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+.heart{font-size:38px;display:block;margin:10px}
+.waves{
+ position:absolute;bottom:-5px;left:-5%;width:110%;height:150px;opacity:.22;
+ background:
+ radial-gradient(ellipse at 50% 100%,transparent 58%,#56b9dc 59%,transparent 60%) 0 0/300px 80px,
+ radial-gradient(ellipse at 50% 100%,transparent 58%,#56b9dc 59%,transparent 60%) 100px 35px/340px 90px;
+ animation:wave 8s ease-in-out infinite alternate;
+}
+@keyframes wave{to{transform:translateX(-50px)}}
+.music{
+ position:fixed;z-index:10;top:18px;left:18px;
+ padding:10px 15px;border-radius:20px;background:rgba(2,17,33,.65);
+ border:1px solid rgba(180,225,245,.2);font:12px Arial,sans-serif;color:#cdebf7;
+}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#24516a;border-radius:10px}
+
+.timer-wrap{
+  margin:28px auto 5px;
+  max-width:650px;
+}
+.timer-title{
+  font:12px Arial,sans-serif;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:#9fd6ed;
+  margin-bottom:14px;
+}
+.timer{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.time-box{
+  padding:14px 8px;
+  border:1px solid rgba(177,225,245,.18);
+  border-radius:16px;
+  background:rgba(10,55,78,.22);
+}
+.time-number{
+  display:block;
+  font:600 clamp(22px,4vw,34px) Arial,sans-serif;
+  color:#eefaff;
+}
+.time-label{
+  display:block;
+  margin-top:5px;
+  font:10px Arial,sans-serif;
+  letter-spacing:2px;
+  color:#8ebfd4;
+}
+@media(max-width:600px){
+  .timer{gap:6px}
+  .time-box{padding:11px 5px}
+}
+
+@media(max-width:600px){.card{padding:38px 22px 45px}.moon{width:60px;height:60px}}
+
+/* ===== Lanterns ===== */
+.lanterns{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:28px auto;max-width:760px}
+.lantern{padding:22px 18px 20px;border-radius:20px;border:1px solid rgba(177,225,245,.22);background:rgba(8,43,62,.32);box-shadow:0 0 28px rgba(255,190,90,.10);position:relative;overflow:hidden;animation:lanternFloat 3.8s ease-in-out infinite}
+.lantern:nth-child(2){animation-delay:.6s}.lantern:nth-child(3){animation-delay:1.2s}.lantern:nth-child(4){animation-delay:1.8s}
+.lantern:before{content:"🏮";display:block;font-size:42px;margin-bottom:8px;filter:drop-shadow(0 0 12px rgba(255,190,70,.7));animation:lanternGlow 1.8s ease-in-out infinite alternate}
+.lantern p{font-size:16px;line-height:1.55}
+@keyframes lanternFloat{50%{transform:translateY(-7px)}}
+@keyframes lanternGlow{to{filter:drop-shadow(0 0 22px rgba(255,190,70,1))}}
+.cake-area{margin:26px auto 10px;display:flex;flex-direction:column;align-items:center}
+.cake{position:relative;width:250px;height:190px;margin-top:28px}.cake .plate{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:270px;height:22px;border-radius:50%;background:rgba(210,235,245,.35);box-shadow:0 0 25px rgba(120,210,240,.25)}
+.cake .tier{position:absolute;left:50%;transform:translateX(-50%);border-radius:14px 14px 22px 22px;border:1px solid rgba(255,220,235,.35);box-shadow:inset 0 -12px 0 rgba(120,40,85,.18),0 10px 30px rgba(0,0,0,.25)}
+.cake .tier.bottom{bottom:25px;width:220px;height:70px;background:linear-gradient(#f3a7c7,#d96b9d)}.cake .tier.top{bottom:78px;width:170px;height:62px;background:linear-gradient(#ffd0df,#ef8fb6)}
+.cake .icing{position:absolute;left:50%;transform:translateX(-50%);bottom:121px;width:170px;height:22px;border-radius:50%;background:#fff1f7;box-shadow:0 4px 0 #f7c2d8}
+.cake .dot{position:absolute;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.8)}
+.cake .d1{left:55px;bottom:45px}.cake .d2{left:95px;bottom:36px}.cake .d3{left:145px;bottom:49px}.cake .d4{left:180px;bottom:39px}
+.candles{position:absolute;bottom:135px;left:50%;transform:translateX(-50%);display:flex;gap:28px;z-index:3}.candle{width:12px;height:48px;border-radius:5px;background:repeating-linear-gradient(135deg,#fff 0 7px,#ff9ec4 7px 14px);position:relative}.flame{position:absolute;left:50%;top:-24px;transform:translateX(-50%);width:14px;height:22px;border-radius:50%;background:#ffd36a;box-shadow:0 0 16px #ffc04d,0 0 30px rgba(255,160,60,.55);animation:flicker .65s ease-in-out infinite alternate}.candle.off .flame{display:none}@keyframes flicker{to{transform:translateX(-50%) scale(.82,.95)}}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}.confetti span{position:absolute;top:-20px;width:9px;height:14px;animation:fall 2.8s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.langs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:22px auto;max-width:760px;text-align:left}
+.lang{padding:14px 12px;border-radius:12px;background:rgba(10,55,78,.22);border:1px solid rgba(177,225,245,.14);font:14px Arial,sans-serif;color:#dcecf5}
+.lang strong{color:#9fd6ed}
+.music-controls{position:fixed;z-index:11;top:18px;right:18px;display:flex;gap:8px;align-items:center}
+.music-controls button{margin:0;padding:9px 13px;font-size:12px}
+@media(max-width:600px){.lanterns,.langs{grid-template-columns:1fr}.music-controls{top:auto;bottom:15px;right:15px}.music{top:15px;left:15px}}
+
+
+.lang-heart{font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",Arial,sans-serif;font-size:16px;line-height:1;vertical-align:middle;display:inline-block;margin:0 7px;animation:heartPulse 1.6s ease-in-out infinite;visibility:visible;opacity:1}
+.love-phrase{display:inline-block;margin-top:6px;font-size:16px}
+@keyframes heartPulse{50%{transform:scale(1.18)}}
+
+.countdown-only{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh}
+.arabic-love{font-family:"Segoe UI",Tahoma,Arial,sans-serif;font-size:clamp(38px,7vw,72px);font-weight:700;direction:rtl;unicode-bidi:isolate;margin-bottom:26px;text-shadow:0 0 24px rgba(255,120,180,.45)}
+.countdown-only .timer-wrap{width:100%;margin:0 auto}
+.locked-note{margin-top:28px;font-size:15px!important;opacity:.8}
+</style>
+</head>
+<body>
+<div class="scene">
+  <div id="confetti" class="confetti"></div>
+  <div class="stars"></div><div class="moon"></div><div class="glow"></div><div class="waves"></div>
+  <div class="music">♫ Beautiful Dream</div>
+  <div class="music-controls">
+    <button id="musicBtn" type="button" aria-label="Play music">▶ Play</button>
+  </div>
+
+  <main class="content">
+    <section class="card show">
+      <div class="screen active" id="s1">
+        <div class="countdown-only">
+          <div class="arabic-love">✨أنت الحياة✨</div>
+          <div class="timer-title">your surprise opens on October 13 ✦</div>
+          <div class="timer-wrap">
+            <div class="timer">
+              <div class="time-box"><span class="time-number" id="days">00</span><span class="time-label">DAYS</span></div>
+              <div class="time-box"><span class="time-number" id="hours">00</span><span class="time-label">HOURS</span></div>
+              <div class="time-box"><span class="time-number" id="minutes">00</span><span class="time-label">MINUTES</span></div>
+              <div class="time-box"><span class="time-number" id="seconds">00</span><span class="time-label">SECONDS</span></div>
+            </div>
+          </div>
+          <p class="locked-note">A little surprise is waiting for you 💖</p>
+        </div>
+      </div>
+
+      <div class="screen" id="s2">
+        <span class="heart">💙</span>
+        <div class="small">for someone very special</div>
+        <h2>Happiest Birthday</h2>
+        <p class="message">to the love of my life 💖<br>
+        My Inspiration ✨ My Heart 💞 My Prince Charming 😩<br>
+        My Hubby 🙈 My safest place 👀 My Comfort Zone ♥️</p>
+        <button onclick="next(3)">Keep going →</button>
+      </div>
+
+      <div class="screen" id="s3">
+        <h2>You are my everything ✨</h2>
+        <p class="message">You are like a melody in my life 🎶<br>
+        No words could ever describe your importance in my life. 😭💖<br><br>
+        You are the reason behind my smiles, my laughter, and my happiness.
+        It’s all because of you. 👀💖</p>
+        <button onclick="next(4)">One more thing →</button>
+      </div>
+
+      <div class="screen" id="s4">
+        <h2>My wish for you 🌙</h2>
+        <p class="message">I always want you to have the best of everything in your life. 😩💖<br><br>
+        I pray to Allah Almighty to bless you with the happiness of the whole duniya 💞,
+        grant you success through every hardship 💖, and give you ease in every distress. ✨</p>
+        <button onclick="next(5)">There's more →</button>
+      </div>
+
+      <div class="screen" id="s5">
+        <h2>Everything I love about you 💞</h2>
+        <p class="message">Your smile, your eyes, your love, your care, your way of seeing things,
+        your respectful behaviour, your nature of admitting your mistakes,
+        and your efforts to always become better…</p>
+        <div class="highlight">I have loved them all. 💖😭</div>
+        <button onclick="next(6)">Now make a wish 🎂 →</button>
+      </div>
+
+      <div class="screen" id="s6">
+        <div class="small">make a wish, my love 🎂</div><h2>Happy Birthday! 🎉💖</h2>
+        <p class="message">Close your eyes, make your sweetest wish, and blow out the candles. 🕯️✨</p>
+        <div class="cake-area"><div class="cake" aria-label="birthday cake with candles">
+          <div class="candles"><div class="candle"><span class="flame"></span></div><div class="candle"><span class="flame"></span></div><div class="candle"><span class="flame"></span></div><div class="candle"><span class="flame"></span></div><div class="candle"><span class="flame"></span></div></div>
+          <div class="icing"></div><div class="tier top"></div><div class="tier bottom"></div><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div><div class="plate"></div>
+        </div><button class="blow-btn" onclick="blowCandles()">💨 Blow out the candles</button></div>
+        <button onclick="next(7)">See your little lanterns 🏮 →</button>
+      </div>
+
+      <div class="screen" id="s7">
+        <div class="small">a few words for you 🏮</div><h2>Little reminders for my love 💖</h2>
+        <div class="lanterns">
+          <div class="lantern"><p>kuchu puchu you are the kind of one I would always choose no matter what💖✨</p></div>
+          <div class="lantern"><p>Be yourself you are incredible as you are💞</p></div>
+          <div class="lantern"><p>You are the most strongest person i have ever known👀</p></div>
+          <div class="lantern"><p>you will win those secret battles you are fighting secretly✨</p></div>
+          <div class="lantern"><p>You will be A Man every kid will want to become [i promise🤭]😭💖</p></div>
+          <div class="lantern"><p>You are that sunshine that will erase the darkness✨</p></div>
+          <div class="lantern"><p>I love you janahh👀💞</p></div>
+        </div><button onclick="next(8)">Continue to your birthday wish →</button>
+      </div>
+
+      <div class="screen" id="s8">
+        <div class="small">one last birthday wish 🎂💖</div>
+        <h2>Once again, happiest birthday, Janahh 👀💖</h2>
+        <p class="message">I love youhhhh sooooo muchhh.<br>You can’t even imagine how much. 💖</p>
+        <div class="highlight">سین بینم کالبمسن وے ہر زمان عاقلمداسن 👀💖</div>
+        <p>May your life always be filled with happiness, peace, and beautiful moments. 🌊✨</p>
+        <button onclick="next(9)">A special page for you 💌 →</button>
+      </div>
+
+      <div class="screen" id="s9">
+        <div class="small">just for you 💌✨</div>
+        <h2>A Special Page, Made Just For You 💖</h2>
+        <p class="message">Because some feelings are too big for just one language… 🥹💞</p>
+        <div style="font-family:Arial,"Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;margin:8px 0">❤️ 💖 ❤️</div><div class="highlight" style="margin-top:8px;font-size:30px">I LOVE YOU 🌍💖</div>
+        <p>So here are 100 different ways to say what my heart already knows. ✨</p>
+        <div class="small" style="margin-top:30px">100 ways to say what my heart means 💞</div>
+        <h2 style="margin-top:12px">I LOVE YOU — in 100 languages 🌍💖</h2>
+        <div class="langs"><div class="lang"><span class="lang-heart">❤️</span><strong>English</strong><br><span class="love-phrase">I love you</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Urdu</strong><br><span class="love-phrase">میں تم سے محبت کرتا/کرتی ہوں</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Arabic</strong><br><span class="love-phrase">أحبك</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Persian</strong><br><span class="love-phrase">دوستت دارم</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Turkish</strong><br><span class="love-phrase">Seni seviyorum</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>French</strong><br><span class="love-phrase">Je t’aime</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Spanish</strong><br><span class="love-phrase">Te amo</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Portuguese</strong><br><span class="love-phrase">Eu te amo</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Italian</strong><br><span class="love-phrase">Ti amo</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>German</strong><br><span class="love-phrase">Ich liebe dich</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Dutch</strong><br><span class="love-phrase">Ik hou van jou</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Afrikaans</strong><br><span class="love-phrase">Ek is lief vir jou</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Swedish</strong><br><span class="love-phrase">Jag älskar dig</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Norwegian</strong><br><span class="love-phrase">Jeg elsker deg</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Danish</strong><br><span class="love-phrase">Jeg elsker dig</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Finnish</strong><br><span class="love-phrase">Rakastan sinua</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Icelandic</strong><br><span class="love-phrase">Ég elska þig</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Irish</strong><br><span class="love-phrase">Is breá liom tú</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Welsh</strong><br><span class="love-phrase">Rwy’n dy garu di</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Scottish Gaelic</strong><br><span class="love-phrase">Tha gaol agam ort</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Greek</strong><br><span class="love-phrase">Σ’ αγαπώ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Albanian</strong><br><span class="love-phrase">Të dua</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Romanian</strong><br><span class="love-phrase">Te iubesc</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Bulgarian</strong><br><span class="love-phrase">Обичам те</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Serbian</strong><br><span class="love-phrase">Волим те</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Croatian</strong><br><span class="love-phrase">Volim te</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Bosnian</strong><br><span class="love-phrase">Volim te</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Slovenian</strong><br><span class="love-phrase">Ljubim te</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Macedonian</strong><br><span class="love-phrase">Те сакам</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Hungarian</strong><br><span class="love-phrase">Szeretlek</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Czech</strong><br><span class="love-phrase">Miluji tě</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Slovak</strong><br><span class="love-phrase">Ľúbim ťa</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Polish</strong><br><span class="love-phrase">Kocham cię</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Ukrainian</strong><br><span class="love-phrase">Я тебе кохаю</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Russian</strong><br><span class="love-phrase">Я тебя люблю</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Belarusian</strong><br><span class="love-phrase">Я цябе кахаю</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Lithuanian</strong><br><span class="love-phrase">Aš tave myliu</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Latvian</strong><br><span class="love-phrase">Es tevi mīlu</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Estonian</strong><br><span class="love-phrase">Ma armastan sind</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Armenian</strong><br><span class="love-phrase">Ես քեզ սիրում եմ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Georgian</strong><br><span class="love-phrase">მიყვარხარ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Azerbaijani</strong><br><span class="love-phrase">Səni sevirəm</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Kazakh</strong><br><span class="love-phrase">Мен сені сүйемін</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Uzbek</strong><br><span class="love-phrase">Men seni sevaman</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Kyrgyz</strong><br><span class="love-phrase">Мен сени сүйөм</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Tajik</strong><br><span class="love-phrase">Ман туро дӯст медорам</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Turkmen</strong><br><span class="love-phrase">Men seni söýýärin</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Mongolian</strong><br><span class="love-phrase">Би чамд хайртай</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Chinese (Mandarin)</strong><br><span class="love-phrase">我爱你</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Cantonese</strong><br><span class="love-phrase">我愛你</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Japanese</strong><br><span class="love-phrase">愛してる</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Korean</strong><br><span class="love-phrase">사랑해</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Vietnamese</strong><br><span class="love-phrase">Anh yêu em / Em yêu anh</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Thai</strong><br><span class="love-phrase">ฉันรักคุณ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Lao</strong><br><span class="love-phrase">ຂ້ອຍຮັກເຈົ້າ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Khmer</strong><br><span class="love-phrase">ខ្ញុំស្រឡាញ់អ្នក</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Burmese</strong><br><span class="love-phrase">မင်းကိုချစ်တယ်</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Indonesian</strong><br><span class="love-phrase">Aku cinta kamu</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Malay</strong><br><span class="love-phrase">Saya cintakan awak</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Filipino</strong><br><span class="love-phrase">Mahal kita</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Javanese</strong><br><span class="love-phrase">Aku tresna karo kowe</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Sundanese</strong><br><span class="love-phrase">Abdi bogoh ka anjeun</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Tamil</strong><br><span class="love-phrase">நான் உன்னை காதலிக்கிறேன்</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Telugu</strong><br><span class="love-phrase">నేను నిన్ను ప్రేమిస్తున్నాను</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Kannada</strong><br><span class="love-phrase">ನಾನು ನಿನ್ನನ್ನು ಪ್ರೀತಿಸುತ್ತೇನೆ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Malayalam</strong><br><span class="love-phrase">ഞാൻ നിന്നെ സ്നേഹിക്കുന്നു</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Bengali</strong><br><span class="love-phrase">আমি তোমাকে ভালোবাসি</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Punjabi</strong><br><span class="love-phrase">ਮੈਂ ਤੈਨੂੰ ਪਿਆਰ ਕਰਦਾ/ਕਰਦੀ ਹਾਂ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Gujarati</strong><br><span class="love-phrase">હું તને પ્રેમ કરું છું</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Marathi</strong><br><span class="love-phrase">माझं तुझ्यावर प्रेम आहे</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Nepali</strong><br><span class="love-phrase">म तिमीलाई माया गर्छु</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Sinhala</strong><br><span class="love-phrase">මම ඔයාට ආදරෙයි</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Assamese</strong><br><span class="love-phrase">মই তোমাক ভাল পাওঁ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Odia</strong><br><span class="love-phrase">ମୁଁ ତୁମକୁ ଭଲ ପାଏ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Sanskrit</strong><br><span class="love-phrase">अहं त्वां प्रेम करोमि</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Hebrew</strong><br><span class="love-phrase">אני אוהב אותך</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Yiddish</strong><br><span class="love-phrase">איך האָב דיך ליב</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Swahili</strong><br><span class="love-phrase">Nakupenda</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Zulu</strong><br><span class="love-phrase">Ngiyakuthanda</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Xhosa</strong><br><span class="love-phrase">Ndiyakuthanda</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Somali</strong><br><span class="love-phrase">Waan ku jeclahay</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Amharic</strong><br><span class="love-phrase">እወድሻለሁ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Hausa</strong><br><span class="love-phrase">Ina son ka/ki</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Yoruba</strong><br><span class="love-phrase">Mo nífẹ̀ẹ́ rẹ</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Igbo</strong><br><span class="love-phrase">A hụrụ m gị n’anya</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Malagasy</strong><br><span class="love-phrase">Tiako ianao</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Sesotho</strong><br><span class="love-phrase">Kea u rata</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Setswana</strong><br><span class="love-phrase">Ke a go rata</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Shona</strong><br><span class="love-phrase">Ndinokuda</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Kinyarwanda</strong><br><span class="love-phrase">Ndagukunda</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Lingala</strong><br><span class="love-phrase">Nalingi yo</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Latin</strong><br><span class="love-phrase">Te amo</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Esperanto</strong><br><span class="love-phrase">Mi amas vin</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Maltese</strong><br><span class="love-phrase">Inħobbok</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Basque</strong><br><span class="love-phrase">Maite zaitut</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Catalan</strong><br><span class="love-phrase">T’estimo</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Galician</strong><br><span class="love-phrase">Quérote</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Aragonese</strong><br><span class="love-phrase">T’amo</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Corsican</strong><br><span class="love-phrase">Ti tengu caru</span> <span class="lang-heart">💖</span></div><div class="lang"><span class="lang-heart">❤️</span><strong>Hawaiian</strong><br><span class="love-phrase">Aloha au iā ʻoe</span> <span class="lang-heart">💖</span></div></div>
+        <p class="message" style="margin-top:35px">And in every language, it still means the same thing… <strong>I love you, Janahh. 👀💞</strong></p>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<!-- Free romantic music: Beautiful Dream by Diego Nava, available under the Mixkit License. -->
+<audio id="music" loop preload="auto">
+  <source src="https://assets.mixkit.co/music/download/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// ===== Birthday countdown =====
+// Change only the date below to the birthday date.
+// Example: "2026-10-15T00:00:00"
+const birthdayDate = "2026-10-13T00:00:00";
+
+function updateCountdown(){
+  const target = new Date(birthdayDate).getTime();
+  const now = Date.now();
+  let distance = target - now;
+
+  if (distance <= 0){
+    document.getElementById("days").textContent = "00";
+    document.getElementById("hours").textContent = "00";
+    document.getElementById("minutes").textContent = "00";
+    document.getElementById("seconds").textContent = "00";
+    document.querySelector(".timer-title").textContent = "happy birthday ✦";
+    document.querySelector(".countdown-only").style.display = "none";
+    next(2);
+    if(audio && audio.paused){ audio.play().catch(()=>{}); }
+    return;
+  }
+
+  const days = Math.floor(distance / 86400000);
+  distance %= 86400000;
+  const hours = Math.floor(distance / 3600000);
+  distance %= 3600000;
+  const minutes = Math.floor(distance / 60000);
+  const seconds = Math.floor((distance % 60000) / 1000);
+
+  document.getElementById("days").textContent = String(days).padStart(2,"0");
+  document.getElementById("hours").textContent = String(hours).padStart(2,"0");
+  document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
+  document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
+}
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+const audio=document.getElementById("music");
+const musicBtn=document.getElementById("musicBtn");
+
+function toggleMusic(){
+  if(audio.paused){
+    audio.play().then(()=>{musicBtn.textContent="⏸ Pause";}).catch(()=>{});
+  }else{
+    audio.pause();
+    musicBtn.textContent="▶ Play";
+  }
+}
+musicBtn.addEventListener("click",toggleMusic);
+document.addEventListener("click",()=>{ if(audio.paused) audio.play().then(()=>{musicBtn.textContent="⏸ Pause";}).catch(()=>{}); },{once:true});
+
+function blowCandles(){
+ document.querySelectorAll('.candle').forEach(c=>c.classList.add('off'));
+ const box=document.getElementById('confetti'); box.innerHTML='';
+ for(let i=0;i<70;i++){const piece=document.createElement('span');piece.style.left=(Math.random()*100)+'%';piece.style.animationDelay=(Math.random()*.7)+'s';piece.style.background=`hsl(${Math.random()*360},85%,70%)`;piece.style.transform=`rotate(${Math.random()*360}deg)`;box.appendChild(piece)}
+ setTimeout(()=>box.innerHTML='',3500);
+}
+function next(n){
+  if(Date.now() < new Date(birthdayDate).getTime()) return;
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
+}
+</script>
+</body>
+</html>
